@@ -1,0 +1,1248 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicon.png" />
+    <title>الرسوم البنكية - نسب</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+:root {
+      /* الخلفية الأساسية: أسود عميق مائل لزرقة الليل */
+      --bg: #090a0f;
+
+      /* البطاقات: رمادي داكن جداً ليعطي عمقاً (Depth) */
+      --card: #12141d;
+      --card2: #1a1d29;
+
+      /* الحدود: ألوان هادئة لا تشتت العين */
+      --border: #242731;
+      --border2: #2d313e;
+
+      /* ألوان التمييز (Action Colors) */
+      --neon2: #5d5fef;
+      /* أرجواني ملكي للروابط والأزرار */
+      --gold: #fde68a;
+      /* ذهبي هادئ لإبراز المبالغ المالية */
+      --green: #00d68f;
+      /* أخضر للنتائج الإيجابية */
+
+      /* النصوص */
+      --text: #ffffff;
+      --muted: #8e929d;
+      /* للنصوص الثانوية والتوضيحية */
+
+      /* الحقول الإدخالية */
+      --inp: #050608;
+    }
+
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      img { max-width: 100%; height: auto; }
+
+      body {
+        font-family: "Cairo", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100dvh;
+        direction: rtl;
+      overflow-x: hidden;
+      }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 20% 10%, rgba(93, 95, 239, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 90%, rgba(168, 85, 247, 0.06) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+.hdr {
+    border-bottom: 1px solid var(--border2);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+      .logo-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      gap: 4px;}
+
+      .logo-txt h1 {
+        font-size: 1.1rem;
+        font-weight: 900;
+        color: #fff;
+      }
+
+.logo-txt p {
+    font-size: clamp(0.75rem, 2vw, 1.05rem);
+    color: var(--text);
+   margin: 0;
+}
+
+    .hdr-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      text-align: center;
+      font-size: 0.72rem;
+      color: #fff;
+    }
+
+    .hdr-meta .hdr-link {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+    }
+
+
+      .hdr-meta a {
+        color: #fff;
+        text-decoration: none;
+      }
+
+    .update-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 2px 10px;
+      font-size: 0.65rem;    .hdr {
+      border-bottom: 1px solid var(--border2);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .logo-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;}
+
+    .logo-txt h1 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+.logo-txt p {
+    font-size: clamp(0.75rem, 2vw, 1.05rem);
+    color: var(--text);
+   margin: 0;
+}
+
+    .hdr-meta {
+      text-align: center;
+      font-size: 0.7rem;
+      color: #fff;
+      line-height: 1.8;
+    }
+
+    .hdr-meta .hdr-link {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+    }
+
+
+    .hdr-meta .hdr-link {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+    }
+
+    .hdr-meta a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .update-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 2px 10px;
+      font-size: 0.65rem;
+      color: #fff;
+        margin-top: 0;
+    }
+
+      color: #fff;
+      margin-top: 0;
+    }
+
+      .main {
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 16px 14px 100px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 18px;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 14px;
+      }
+
+      .card::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 140px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--neon2));
+      }
+
+      .card2 {
+        background: var(--card2);
+      }
+
+      .sec-t {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--neon);
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding-bottom: 10px;
+        margin-bottom: 12px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .field {
+        margin-bottom: 10px;
+      }
+
+      .field label {
+        display: block;
+        font-size: 0.72rem;
+        color: var(--muted);
+        margin-bottom: 3px;
+        font-weight: 600;
+      }
+
+      .field input,
+      .field select {
+        width: 100%;
+        padding: 9px 12px;
+        background: var(--inp);
+        border: 1px solid var(--border2);
+        border-radius: 8px;
+        color: var(--text);
+        font-family: "Cairo", sans-serif;
+        font-size: 0.88rem;
+      }
+
+      .field input:focus,
+      .field select:focus {
+        outline: none;
+        border-color: var(--neon2);
+        box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.15);
+      }
+
+      .field select option {
+        background: #0a1a35;
+      }
+
+      .r2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .r3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+      }
+
+      .sub {
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px;
+        margin-bottom: 12px;
+      }
+
+      .sub-t {
+        font-size: 0.74rem;
+        font-weight: 700;
+        color: var(--neon2);
+        margin-bottom: 8px;
+      }
+
+ .btn-calc {
+  width: 100%;
+  padding: 16px;
+  /* التدرج اللوني الشبكي المستوحى من الصورة */
+  background: radial-gradient(circle at 10% 10%, rgba(131, 144, 250, 0.4) 0%, transparent 40%),
+              radial-gradient(circle at 90% 90%, rgba(253, 230, 138, 0.25) 0%, transparent 40%),
+              radial-gradient(circle at 50% 110%, rgba(255, 133, 162, 0.2) 0%, transparent 40%),
+              #e2e8f0; /* اللون الأساسي الفاتح */
+
+  border: 1px solid rgba(255, 255, 255, 0.1); /* حدود خفيفة جداً للدمج */
+  border-radius: 12px;
+
+  /* تغيير لون النص للأسود أو الرمادي الداكن جداً للوضوح */
+  color: #12141d;
+  font-weight: 800;
+  font-size: 1rem;
+  font-family: 'Cairo';
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+
+  /* إضافة توهج خارجي خفيف ناعم */
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.03);
+}
+
+/* تأثير عند تمرير الماوس لجعل التدرج أكثر حيوية */
+.btn-calc:hover {
+  background: radial-gradient(circle at 10% 10%, rgba(131, 144, 250, 0.5) 0%, transparent 40%),
+              radial-gradient(circle at 90% 90%, rgba(253, 230, 138, 0.35) 0%, transparent 40%),
+              radial-gradient(circle at 50% 110%, rgba(255, 133, 162, 0.3) 0%, transparent 40%),
+              #f1f5f9;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.06);
+}
+    .btn-calc:active {
+      transform: scale(0.97);
+    }
+
+      .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 9px 18px;
+        background: rgba(0, 102, 255, 0.15);
+        border: 1px solid var(--border2);
+        border-radius: 9px;
+        color: var(--neon);
+        font-family: "Cairo", sans-serif;
+        font-size: 0.84rem;
+        cursor: pointer;
+        margin-bottom: 14px;
+      }
+
+      .res-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 9px 12px;
+        background: var(--card);
+        border-radius: 8px;
+        margin-bottom: 6px;
+        border: 1px solid var(--border);
+      }
+
+      .res-row.hl {
+        border-color: var(--neon);
+        background: rgba(0, 200, 255, 0.04);
+      }
+
+      .res-row.hl .rv {
+        font-size: 1.05rem;
+        color: var(--neon);
+      }
+
+      .res-row.hl2 {
+        border-color: var(--gold);
+        background: rgba(240, 180, 41, 0.04);
+      }
+
+      .res-row.hl2 .rv {
+        color: var(--gold);
+      }
+
+      .res-row.hl3 {
+        border-color: var(--green);
+        background: rgba(0, 214, 143, 0.04);
+      }
+
+      .res-row.hl3 .rv {
+        color: var(--green);
+      }
+
+      .res-row .rl {
+        font-size: 0.74rem;
+        color: var(--muted);
+      }
+
+      .res-row .rv {
+        font-weight: 700;
+        font-size: 0.92rem;
+      }
+
+      .res-section {
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: var(--neon2);
+        padding: 6px 0;
+        margin-top: 8px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 8px;
+      }
+
+      .dec-badge {
+        text-align: center;
+        padding: 12px;
+        border-radius: 11px;
+        font-size: 0.95rem;
+        font-weight: 900;
+        margin-top: 10px;
+      }
+
+      .dec-badge.ok {
+        background: rgba(0, 214, 143, 0.1);
+        border: 1px solid var(--green);
+        color: var(--green);
+      }
+
+      .dec-badge.no {
+        background: rgba(255, 61, 107, 0.1);
+        border: 1px solid var(--red);
+        color: var(--red);
+      }
+
+      .export-btns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .btn-export {
+        padding: 10px;
+        border: none;
+        border-radius: 9px;
+        font-family: "Cairo", sans-serif;
+        font-size: 0.82rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+
+      .btn-pdf {
+        background: linear-gradient(135deg, #dc2626, #b91c1c);
+        color: #fff;
+      }
+
+      .btn-png {
+        background: linear-gradient(135deg, #0066ff, #00c8ff);
+        color: #fff;
+      }
+
+      .page {
+        display: none;
+      }
+
+      .page.active {
+        display: block;
+      }
+
+      .footer {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 10px 20px 14px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .ftr-r {
+        font-size: 0.63rem;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+      }
+
+
+    .ftr-icons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .ftr-icons a {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .ftr-icons a:hover { opacity: 0.85; transform: scale(1.1); }
+
+      .wa {
+        background: #25d366;
+      }
+
+      .tw {
+        background: #000;
+      }
+
+      .tg {
+        background: #0088cc;
+      }
+
+      @media (min-width: 768px) {
+        .main {
+          max-width: 800px;
+        }
+
+        .card {
+          padding: 22px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        .main {
+          padding: 10px 8px 100px;
+        }
+
+        .card {
+          padding: 14px;
+        }
+
+        .r2,
+        .r3 {
+          gap: 8px;
+        }
+
+        .r3 {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .tbl {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.75rem;
+        margin-top: 10px;
+      }
+
+      .tbl th {
+        background: var(--neon2);
+        color: #fff;
+        padding: 8px;
+        text-align: right;
+        font-weight: 700;
+      }
+
+      .tbl td {
+        padding: 8px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .tbl tr:nth-child(even) {
+        background: rgba(0, 0, 0, 0.15);
+      }
+
+      .old {
+        color: var(--red);
+        text-decoration: line-through;
+      }
+
+      .new {
+        color: var(--green);
+        font-weight: 700;
+      }
+      a.logo {
+        display: inline-flex;
+        width: fit-content;
+        max-width: 100%;
+      }
+      .subpage-logo {
+        width: clamp(110px, 14vw, 120px);
+        height: auto;
+        object-fit: contain;
+        display: block;
+        margin: 0 auto 4px auto;
+        background: none;
+        box-shadow: none;
+        mix-blend-mode: normal;
+      }
+        @media (max-width: 600px) {
+      .hdr {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 12px;
+      }
+      .hdr-meta {
+        width: 100%;
+      }
+    }
+    
+    /* === Redesigned Header Info Section === */
+    .hdr-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border: 1px solid rgba(93, 95, 239, 0.35);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.025);
+      box-shadow: 0 0 18px rgba(93,95,239,0.12), inset 0 0 12px rgba(93,95,239,0.04);
+      min-width: 210px;
+      max-width: 270px;
+      text-align: center;
+    }
+    .hdr-url-pill {
+      background: rgba(93,95,239,0.12);
+      border: 1px solid rgba(93,95,239,0.45);
+      border-radius: 50px;
+      padding: 4px 18px;
+      box-shadow: 0 0 10px rgba(93,95,239,0.2);
+      width: 100%;
+    }
+    .hdr-url-pill a {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #c8c9ff;
+      text-decoration: none;
+      display: block;
+    }
+    .hdr-url-pill a:hover { color: #fff; }
+    .hdr-row2 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 8px;
+    }
+    .hdr-update {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #4ade80;
+      white-space: nowrap;
+    }
+    .hdr-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hdr-icons a {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+    .hdr-icons a:hover { opacity: 0.85; transform: scale(1.1); }
+    .hdr-icons .wa { background: #25d366; }
+    .hdr-icons .tw { background: #000; border: 1px solid #333; }
+    .hdr-icons .tg { background: #0088cc; }
+    .hdr-email a {
+      font-size: 0.7rem;
+      color: #8e929d;
+      text-decoration: none;
+      transition: color 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .hdr-email a:hover { color: #c8c9ff; }
+    @media (max-width: 600px) {
+      .hdr-meta { min-width: 0; width: 100%; max-width: 100%; }
+      .hdr-row2 { flex-wrap: wrap; justify-content: center; gap: 6px; }
+    }
+    
+    /* Disclaimer bar */
+    .nesab-disclaimer-bar {
+      background: var(--card2, #1a1d29);
+      border-top: 1px solid rgba(226, 176, 74, 0.4);
+      padding: 10px 20px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted, #8e929d);
+      direction: rtl;
+      position: relative;
+      z-index: 10;
+    }
+    .nesab-disclaimer-bar a {
+      color: var(--gold, #fde68a);
+      text-decoration: underline;
+      margin-right: 8px;
+    }
+    
+                                /* === Header — Material Design 56px mobile / 64px tablet+ === */
+    :root {
+      --logo-size: 36px;
+      --header-px: 16px;
+      --header-py: 10px;
+      --title-size: 16px;
+      --subtitle-size: 12px;
+    }
+
+    /* .hdr = .page-header */
+    .hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      direction: rtl;
+      padding: var(--header-py) var(--header-px);
+      min-height: calc(var(--logo-size) + var(--header-py) * 2);
+      box-sizing: border-box;
+      border-bottom: 1px solid var(--border2);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* .logo-wrap = .hdr-brand */
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-direction: row;
+    }
+
+    /* .subpage-logo = .hdr-logo */
+    .subpage-logo {
+      width: var(--logo-size);
+      height: var(--logo-size);
+      flex: 0 0 var(--logo-size);
+      object-fit: contain;
+    }
+
+    /* .logo-txt = .hdr-text */
+    .logo-txt {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    /* .logo-txt h1 = .hdr-title */
+    .logo-txt h1 {
+      font-size: var(--title-size);
+      font-weight: 600;
+      line-height: 1.2;
+      margin: 0;
+    }
+
+    /* .logo-txt p = .hdr-subtitle */
+    .logo-txt p {
+      font-size: var(--subtitle-size);
+      line-height: 1.2;
+      margin: 0;
+      opacity: 0.6;
+    }
+
+    @media (min-width: 768px) {
+      :root {
+        --logo-size: 40px;
+        --header-px: 24px;
+        --header-py: 12px;
+        --title-size: 17px;
+        --subtitle-size: 13px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      :root {
+        --logo-size: 44px;
+        --header-px: 32px;
+        --header-py: 14px;
+        --title-size: 18px;
+        --subtitle-size: 13px;
+      }
+    }
+
+    /* === Page Meta — bottom section === */
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+    .main { flex: 1; }
+
+    .page-meta {
+      border-top: 1px solid var(--border2);
+      background: var(--card2);
+      padding: 14px 20px;
+      padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .pm-url {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #c8c9ff;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      display: block;
+    }
+    .pm-url:hover { color: #fff; }
+    .page-meta-site {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .pm-row2 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .pm-update {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #4ade80;
+      white-space: nowrap;
+    }
+    .pm-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pm-icons a {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+    .pm-icons a:hover { opacity: 0.85; transform: scale(1.1); }
+    .pm-email a {
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+      letter-spacing: 0.3px;
+    }
+    .pm-email a:hover { color: #c8c9ff; }
+
+    /* === Container responsive fix === */
+    .main {
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      box-sizing: border-box;
+    }
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .main {
+        max-width: 860px !important;
+        padding-left: 24px !important;
+        padding-right: 24px !important;
+      }
+    }
+    @media (min-width: 1024px) {
+      .main {
+        max-width: 960px !important;
+        padding-left: 32px !important;
+        padding-right: 32px !important;
+      }
+    }
+
+    /* Overflow & accessibility */
+    body { overflow-x: hidden; min-width: 320px; }
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    @media (max-width: 600px) {
+      input, select, textarea { font-size: 16px !important; }
+    }
+
+    </style>
+    <script src="https://unpkg.com/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+  </head>
+
+  <body>
+    <div class="hdr">
+    <div class="logo-wrap">
+      <a href="/" class="logo" aria-label="Nesab"><img src="assets-logo/dar-2.svg" alt="Nesab Logo" loading="eager" class="subpage-logo"></a>
+
+      <div class="logo-txt">
+          <h1>الرسوم البنكية</h1>
+          <p>نسب</p>
+        </div>
+    </div>
+      </div>
+    <div class="main">
+      <div class="card">
+        <div class="sec-t">
+          &#x1F4B3; مقارنة الرسوم البنكية السابقة والمحدثة
+        </div>
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th>البند</th>
+              <th>السابقة</th>
+              <th>المحدثة</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>رسوم إدارية (تمويل شخصي)</td>
+              <td class="old">1% بحد 5,000</td>
+              <td class="new">0.5% بحد 2,500 + ضريبة 15%</td>
+            </tr>
+            <tr>
+              <td>رسوم إدارية (تأجيري)</td>
+              <td class="old">حسب البنك</td>
+              <td class="new">ثابتة حسب العقد</td>
+            </tr>
+            <tr>
+              <td>رسوم إدارية (عقاري)</td>
+              <td class="old">1% بحد 5,000</td>
+              <td class="new">5,750 ريال شامل التقييم</td>
+            </tr>
+            <tr>
+              <td>رسوم السداد المبكر</td>
+              <td class="old">3 أشهر أرباح</td>
+              <td class="new">شهر واحد أرباح أو 10,000 أيهما أقل</td>
+            </tr>
+            <tr>
+              <td>نسبة استقطاع شخصي</td>
+              <td class="old">33.33%</td>
+              <td class="new">33.33% (بدون تغيير)</td>
+            </tr>
+            <tr>
+              <td>نسبة استقطاع تأجيري</td>
+              <td class="old">45%</td>
+              <td class="new">45% (بدون تغيير)</td>
+            </tr>
+            <tr>
+              <td>نسبة استقطاع عقاري &lt;15K</td>
+              <td class="old">55%</td>
+              <td class="new">55% (بدون تغيير)</td>
+            </tr>
+            <tr>
+              <td>نسبة استقطاع عقاري &gt;15K</td>
+              <td class="old">65%</td>
+              <td class="new">65% (بدون تغيير)</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="dec-badge ok" style="margin-top: 14px">
+          &#x2705; محدّث حسب تعليمات ساما 2025
+        </div>
+      </div>
+      <div class="export-btns">
+        <button class="btn-export btn-pdf" onclick="exportPDF()">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+            <polyline points="14 2 14 8 20 8" /></svg
+          >PDF</button
+        ><button class="btn-export btn-png" onclick="exportPNG()">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <circle cx="8.5" cy="8.5" r="1.5" />
+            <polyline points="21 15 16 10 5 21" /></svg
+          >صورة
+        </button>
+      </div>
+    </div>
+    <div class="footer">
+     <div class="ftr-r">
+        <h3>By Abdullah Almalki <h3>
+        <p>جميع الحقوق محفوظة &copy; 2026</p>
+      </div>
+    </div>
+    <script>
+      function _getResultData() {
+        var d = [];
+        var area = document.getElementById("resultArea");
+        if (!area) return d;
+        var nodes = area.children;
+        for (var i = 0; i < nodes.length; i++) {
+          var el = nodes[i];
+          if (el.classList.contains("res-section")) {
+            d.push({ type: "section", text: el.textContent.trim() });
+          } else if (el.classList.contains("res-row")) {
+            var rl = el.querySelector(".rl");
+            var rv = el.querySelector(".rv");
+            var hl = "";
+            if (el.classList.contains("hl")) hl = "neon";
+            else if (el.classList.contains("hl2")) hl = "gold";
+            else if (el.classList.contains("hl3")) hl = "green";
+            d.push({
+              type: "row",
+              label: rl ? rl.textContent.trim() : "",
+              value: rv ? rv.textContent.trim() : "",
+              highlight: hl,
+            });
+          } else if (el.classList.contains("dec-badge")) {
+            d.push({
+              type: "badge",
+              text: el.textContent.trim(),
+              ok: el.classList.contains("ok"),
+            });
+          }
+        }
+        return d;
+      }
+      function _drawResultCanvas(data, title) {
+        var W = 700,
+          S = 2,
+          pad = 30,
+          rowH = 38,
+          secH = 34,
+          badgeH = 50,
+          gap = 6;
+        var totalH = pad + 40 + 10;
+        for (var i = 0; i < data.length; i++) {
+          if (data[i].type === "section") totalH += secH + gap;
+          else if (data[i].type === "row") totalH += rowH + gap;
+          else if (data[i].type === "badge") totalH += badgeH + gap + 10;
+        }
+        totalH += pad + 30;
+        var c = document.createElement("canvas");
+        c.width = W * S;
+        c.height = totalH * S;
+        var ctx = c.getContext("2d");
+        ctx.scale(S, S);
+        ctx.fillStyle = "#0d2040";
+        ctx.fillRect(0, 0, W, totalH);
+        ctx.textAlign = "right";
+        ctx.direction = "rtl";
+        var y = pad;
+        ctx.fillStyle = "#00c8ff";
+        ctx.font = "bold 18px Cairo,sans-serif";
+        ctx.fillText(
+          title ||
+            "\u0646\u062a\u064a\u062c\u0629 \u2014 \u0646\u0650\u0633\u064e\u0628",
+          W - pad,
+          y + 18,
+        );
+        ctx.fillStyle = "#4a6a9a";
+        ctx.font = "12px Cairo,sans-serif";
+        ctx.fillText("www.Nesab.sa", W - pad, y + 34);
+        y += 50;
+        for (var i = 0; i < data.length; i++) {
+          var item = data[i];
+          if (item.type === "section") {
+            y += 4;
+            ctx.fillStyle = "#0066ff";
+            ctx.font = "bold 13px Cairo,sans-serif";
+            ctx.fillText(item.text, W - pad, y + 16);
+            ctx.strokeStyle = "#122850";
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(pad, y + 22);
+            ctx.lineTo(W - pad, y + 22);
+            ctx.stroke();
+            y += secH + gap;
+          } else if (item.type === "row") {
+            var bg = "#0a1a35",
+              bd = "#122850",
+              vc = "#d0e4ff";
+            if (item.highlight === "neon") {
+              bd = "#00c8ff";
+              bg = "#0a1e3a";
+              vc = "#00c8ff";
+            } else if (item.highlight === "gold") {
+              bd = "#f0b429";
+              bg = "#1a1a10";
+              vc = "#f0b429";
+            } else if (item.highlight === "green") {
+              bd = "#00d68f";
+              bg = "#0a1a25";
+              vc = "#00d68f";
+            }
+            ctx.fillStyle = bg;
+            _roundRect(ctx, pad, y, W - pad * 2, rowH, 8);
+            ctx.fill();
+            ctx.strokeStyle = bd;
+            ctx.lineWidth = 1;
+            _roundRect(ctx, pad, y, W - pad * 2, rowH, 8);
+            ctx.stroke();
+            ctx.fillStyle = "#8ab0d0";
+            ctx.font = "13px Cairo,sans-serif";
+            ctx.textAlign = "right";
+            ctx.fillText(item.label, W - pad - 10, y + rowH / 2 + 5);
+            ctx.fillStyle = vc;
+            ctx.font = "bold 15px Cairo,sans-serif";
+            ctx.textAlign = "left";
+            ctx.fillText(item.value, pad + 10, y + rowH / 2 + 5);
+            ctx.textAlign = "right";
+            y += rowH + gap;
+          } else if (item.type === "badge") {
+            y += 6;
+            var bc = item.ok ? "#00d68f" : "#ff3d6b";
+            ctx.fillStyle = item.ok
+              ? "rgba(0,214,143,.1)"
+              : "rgba(255,61,107,.1)";
+            _roundRect(ctx, pad, y, W - pad * 2, badgeH, 10);
+            ctx.fill();
+            ctx.strokeStyle = bc;
+            ctx.lineWidth = 1;
+            _roundRect(ctx, pad, y, W - pad * 2, badgeH, 10);
+            ctx.stroke();
+            ctx.fillStyle = bc;
+            ctx.font = "bold 16px Cairo,sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText(item.text, W / 2, y + badgeH / 2 + 6);
+            ctx.textAlign = "right";
+            y += badgeH + gap + 4;
+          }
+        }
+        ctx.fillStyle = "#4a6a9a";
+        ctx.font = "10px Cairo,sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(
+          "NESAB \u2014 www.Nesab.sa \u2014 By Abdullah Almalki",
+          W / 2,
+          totalH - 12,
+        );
+        return c;
+      }
+      function _roundRect(ctx, x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+        ctx.closePath();
+      }
+      function exportPNG() {
+        var data = _getResultData();
+        if (!data.length) return;
+        var c = _drawResultCanvas(data, "نتيجة الرسوم البنكية");
+        var a = document.createElement("a");
+        a.download = "نتيجة_الرسوم_نسب.png";
+        a.href = c.toDataURL("image/png");
+        a.click();
+      }
+      function exportPDF() {
+        var data = _getResultData();
+        if (!data.length) return;
+        var c = _drawResultCanvas(data, "نتيجة الرسوم البنكية");
+        var imgData = c.toDataURL("image/png");
+        var pdf = new jspdf.jsPDF("p", "mm", "a4");
+        var pW = pdf.internal.pageSize.getWidth();
+        var pH = pdf.internal.pageSize.getHeight();
+        var ratio = c.height / c.width;
+        var imgW = pW - 20;
+        var imgH = imgW * ratio;
+        if (imgH > pH - 20) {
+          imgH = pH - 20;
+          imgW = imgH / ratio;
+        }
+        pdf.addImage(imgData, "PNG", (pW - imgW) / 2, 10, imgW, imgH);
+        var pdfData = pdf.output("dataurlstring");
+        var a = document.createElement("a");
+        a.href = pdfData;
+        a.download = "نتيجة_الرسوم_نسب.pdf";
+        a.click();
+      }
+    </script>
+    <script src="nesab-ai.js"></script>
+  <script>
+(function(){
+  var a = document.querySelector('a.logo');
+  if (!a) return;
+  // Always non-clickable on index itself
+  var p = location.pathname;
+  if (p === '/' || p === '' || p === '/index.html') {
+    a.removeAttribute('href'); a.style.cursor = 'default'; a.style.pointerEvents = 'none'; return;
+  }
+  // Clickable only when the user came directly from the home page
+  var r = document.referrer, o = location.origin;
+  var fromHome = r && (r === o || r === o + '/' || r === o + '/index.html');
+  if (!fromHome) {
+    a.removeAttribute('href'); a.style.cursor = 'default'; a.style.pointerEvents = 'none';
+  }
+})();
+</script>
+
+  <div class="page-meta">
+    <div class="page-meta-site">
+      <a class="pm-url" href="https://www.nesab.sa" target="_blank" rel="noopener noreferrer">www.nesab.sa</a>
+    </div>
+    <div class="pm-row2">
+      <span class="pm-update">آخر تحديث: مارس 2026</span>
+      <div class="pm-icons">
+        <a href="https://t.me/Nesab.sa" target="_blank" class="tg"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+        <a href="https://twitter.com/Banker_Vp" target="_blank" class="tw"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="https://wa.me/966500768074" target="_blank" class="wa"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+      </div>
+    </div>
+    <div class="pm-email"><a href="mailto:info@Nesab.sa">info@Nesab.sa</a></div>
+  </div>
+
+
+
+  <div class="nesab-disclaimer-bar">
+    ⚠️ النتائج تقريبية لأغراض توعوية فقط — لا تُشكّل نصيحة مالية أو قانونية مهنية.
+    <a href="/disclaimer">إخلاء المسؤولية الكامل</a>
+  </div>
+</body>
+</html>

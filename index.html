@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicon.png" />
+    <title>نِسَب — الحاسبات المالية</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #090a0f; /* Deep black-blue background */
+        --card: #12141d; /* Slightly lighter card background */
+        --border: #242731; /* Subtle dark grey/blue border */
+        --text: #ffffff; /* Pure white for headings */
+        --muted: #8e929d; /* Muted grey for descriptions */
+        --accent: #5d5fef; /* The purple/blue accent for selection */
+        --glow-top: rgba(80, 70, 229, 0.08); /* Faint top purple glow */
+        --glow-bottom: rgba(147, 51, 234, 0.05); /* Faint bottom violet glow */
+        --neon: #00c8ff;
+        --neon2: #0066ff;
+        --gold: #fde68a;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      img { max-width: 100%; height: auto; }
+      body {
+        font-family: "Cairo", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        direction: rtl;
+      overflow-x: hidden;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+    /* Top Left Purple Glow */
+          radial-gradient(
+            circle at 20% 10%,
+            rgba(93, 95, 239, 0.08) 0%,
+            transparent 40%
+          ),
+          /* Bottom Right Subtle Violet Glow */
+          radial-gradient(
+              circle at 80% 90%,
+              rgba(168, 85, 247, 0.06) 0%,
+              transparent 50%
+            ),
+          /* Center Deep Vignette */
+          radial-gradient(circle at 50% 50%, transparent 0%, #090a0f 100%);
+        pointer-events: none;
+        z-index: 0;
+      }
+      .hdr {
+        border-bottom: 1px solid var(--border);
+        padding: 24px;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .hdr h1 {
+        font-size: clamp(1.75rem, 3.5vw, 3.3rem);
+        font-weight: 900;
+        color: #fff;
+        letter-spacing: 4px;
+        text-shadow: 0 0 20px var(--neon);
+      }
+      .hdr p {
+        font-size: 0.85rem;
+        color: #8ab0d0;
+      }
+      /* ===== index proportional layout ===== */
+
+      /* container: .main */
+      .main {
+        width: 100%;
+        max-width: 720px;
+        margin-inline: auto;
+        padding: 20px 10px 60px;
+        box-sizing: border-box;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* section title: .section-title */
+      .section-title {
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: var(--neon);
+        padding: 10px 0;
+        margin-top: 16px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .section-title::before {
+        content: "";
+        width: 4px;
+        height: 18px;
+        background: var(--text);
+        border-radius: 10px;
+      }
+
+      /* cards grid: .grid — always 2 columns */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        align-items: stretch;
+      }
+
+      /* cards: .link-card */
+      .link-card {
+        width: 100%;
+        min-width: 0;
+        min-height: 84px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        text-decoration: none;
+        color: var(--text);
+        transition: 0.2s;
+      }
+      .link-card * { min-width: 0; }
+
+      /* very small screens only */
+      @media (max-width: 359px) {
+        .grid { grid-template-columns: 1fr; }
+      }
+
+      /* tablet */
+      @media (min-width: 768px) {
+        .main { max-width: 900px; padding-inline: 18px; }
+        .grid { gap: 14px; }
+      }
+
+      /* desktop */
+      @media (min-width: 1024px) {
+        .main { max-width: 1100px; padding-inline: 24px; }
+        .grid { gap: 16px; }
+      }
+      .link-card.active {
+        border-color: #ffffff;
+        box-shadow:
+          0 0 15px rgba(255, 255, 255, 0.05),
+          inset 0 0 10px rgba(255, 255, 255, 0.02);
+      }
+      .link-card:hover {
+        border-color: var(--gold);
+        background: rgba(0, 200, 255, 0.04);
+      }
+      .link-card:hover .num {
+        background: linear-gradient(135deg, var(--gold), transparent);
+        box-shadow: 0 0 8px var(--gold);
+        color: white;
+      }
+      .link-card:hover .info h3 { color: var(--gold); }
+
+      .link-card .num {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, black, var(--gold));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 900;
+        font-size: 0.82rem;
+        flex-shrink: 0;
+      }
+      .link-card .info h3 {
+        font-size: 0.84rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 2px;
+        overflow-wrap: break-word;
+        transition: color 0.3s ease;
+      }
+      .link-card .info p {
+        font-size: 0.67rem;
+        color: var(--muted);
+      }
+      .footer {
+        text-align: center;
+        padding: 20px;
+        font-size: 1.44rem;
+        color: #ffff;
+      }
+            .ftr-r {
+        font-size: 0.63rem;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+      }
+      .footer-icons {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 10px;
+      }
+      .footer-icons a {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.2s;
+        background: rgba(255, 255, 255, 0.15);
+      }
+      .footer-icons a:hover {
+        opacity: 0.8;
+      }
+      a.logo {
+        order: -1;
+        display: inline-flex;
+        width: fit-content;
+        max-width: 100%;
+      }
+            .logo img {
+        width: 150px;
+        height: auto;
+        object-fit: contain;
+        display: block;
+        mix-blend-mode: normal;
+      }
+      @media (max-width: 767px) {
+        .logo img {
+          width: 120px;
+        }
+      }
+      @media (min-width: 768px) and (max-width: 1024px) {
+        .logo img {
+          width: 135px;
+        }
+      }
+      @media (min-width: 1025px) {
+        .logo img {
+          width: 150px;
+        }
+      }
+    
+    /* Disclaimer bar */
+    .nesab-disclaimer-bar {
+      background: var(--card2, #1a1d29);
+      border-top: 1px solid rgba(226, 176, 74, 0.4);
+      padding: 10px 20px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted, #8e929d);
+      direction: rtl;
+      position: relative;
+      z-index: 10;
+    }
+    .nesab-disclaimer-bar a {
+      color: var(--gold, #fde68a);
+      text-decoration: underline;
+      margin-right: 8px;
+    }
+    
+    /* === Responsive & Logo Transparency Fix (Index) === */
+
+    /* Logo: transparent, normal blend */
+    a.logo, .logo img {
+      background: transparent !important;
+      background-color: transparent !important;
+    }
+    .logo img { mix-blend-mode: normal !important; }
+
+    /* Prevent horizontal scroll */
+    body { overflow-x: hidden; min-width: 320px; }
+
+    /* Inputs: prevent iOS zoom */
+    @media (max-width: 600px) {
+      input, select, textarea { font-size: 16px !important; }
+    }
+
+
+    /* === Page Meta — bottom section === */
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+    .main { flex: 1; }
+
+    .page-meta {
+      border-top: 1px solid var(--border2);
+      background: var(--card2);
+      padding: 14px 20px;
+      padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .pm-url {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #c8c9ff;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      display: block;
+    }
+    .pm-url:hover { color: #fff; }
+    .page-meta-site {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .pm-row2 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .pm-update {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #4ade80;
+      white-space: nowrap;
+    }
+    .pm-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pm-icons a {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+    .pm-icons a:hover { opacity: 0.85; transform: scale(1.1); }
+    .pm-email a {
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+      letter-spacing: 0.3px;
+    }
+    .pm-email a:hover { color: #c8c9ff; }
+
+
+    /* === Header variables === */
+    :root {
+      --logo-size: 36px;
+      --header-px: 16px;
+      --header-py: 10px;
+    }
+    @media (min-width: 768px) {
+      :root { --logo-size: 40px; --header-px: 24px; --header-py: 12px; }
+    }
+    @media (min-width: 1024px) {
+      :root { --logo-size: 44px; --header-px: 32px; --header-py: 14px; }
+    }
+    </style>
+  </head>
+  <body>
+    <div class="hdr">
+      <a href="/" class="logo" aria-label="Nesab">
+        <img src="assets-logo/dar-2.svg" alt="Nesab Logo" loading="eager">
+      </a>
+    </div>
+    <div class="main">
+      <div class="section-title">التمويل الشخصي</div>
+      <div class="grid">
+        <a href="/shakhsi-mukhtasar" class="link-card"
+          ><div class="num">1</div>
+          <div class="info">
+            <h3>التمويل الشخصي</h3>
+            <p>حساب سريع للقسط والموافقة</p>
+          </div></a
+        >
+        <a href="/shakhsi-plus" class="link-card"
+          ><div class="num">2</div>
+          <div class="info">
+            <h3>الشخصي بلص</h3>
+            <p>مع العقاري والبطاقات والأهلية</p>
+          </div></a
+        >
+      </div>
+
+      <div class="section-title">التمويل التأجيري</div>
+      <div class="grid">
+        <a href="/tajiri-aadi" class="link-card"
+          ><div class="num">3</div>
+          <div class="info">
+            <h3>التمويل التأجيري</h3>
+            <p>حساب القسط والتأمين</p>
+          </div></a
+        >
+        <a href="/tajiri-makro" class="link-card"
+          ><div class="num">4</div>
+          <div class="info">
+            <h3>التأجيري بلص</h3>
+            <p>مع الموازنة وأقصى سعر</p>
+          </div></a
+        >
+      </div>
+
+      <div class="section-title">التمويل العقاري</div>
+      <div class="grid">
+        <a href="/aqari-aadi" class="link-card"
+          ><div class="num">5</div>
+          <div class="info">
+            <h3>التمويل العقاري</h3>
+            <p>2 في 1 مع الدعم السكني</p>
+          </div></a
+        >
+        <a href="/aqari-plus" class="link-card"
+          ><div class="num">6</div>
+          <div class="info">
+            <h3>العقاري بلص</h3>
+            <p>مع الرتب والمبلغ المحدد</p>
+          </div></a
+        >
+      </div>
+
+      <div class="section-title">منتجات أخرى</div>
+      <div class="grid">
+        <a href="/shira-madyoniya" class="link-card"
+          ><div class="num">7</div>
+          <div class="info">
+            <h3>شراء مديونية</h3>
+            <p>صافي المبلغ بعد خصم المديونية</p>
+          </div></a
+        >
+        <a href="/niqat-albay" class="link-card"
+          ><div class="num">8</div>
+          <div class="info">
+            <h3>تمويل نقاط البيع</h3>
+            <p>للمنشآت والشركات</p>
+          </div></a
+        >
+        <a href="/khayrat" class="link-card"
+          ><div class="num">9</div>
+          <div class="info">
+            <h3>خيرات — الودائع</h3>
+            <p>حساب أرباح الودائع</p>
+          </div></a
+        >
+        <a href="/himaya-iddikhar" class="link-card"
+          ><div class="num">10</div>
+          <div class="info">
+            <h3>الحماية والادخار</h3>
+            <p>الدفعة الواحدة — جدول سنوي</p>
+          </div></a
+        >
+      </div>
+
+      <div class="section-title">أدوات مساعدة</div>
+      <div class="grid">
+        <a href="/nisbat-alistiqtaa" class="link-card"
+          ><div class="num">11</div>
+          <div class="info">
+            <h3>نسب الاستقطاع</h3>
+            <p>حسب ساما 2025</p>
+          </div></a
+        >
+        <a href="/istiqtaa-naam-la" class="link-card"
+          ><div class="num">12</div>
+          <div class="info">
+            <h3>الاستقطاع المتاح</h3>
+            <p>المتاح لكل منتج</p>
+          </div></a
+        >
+        <a href="/hasibat-alumr" class="link-card"
+          ><div class="num">13</div>
+          <div class="info">
+            <h3>حاسبة العمر</h3>
+            <p>ميلادي وهجري</p>
+          </div></a
+        >
+        <a href="/tahwil-altarikh" class="link-card"
+          ><div class="num">14</div>
+          <div class="info">
+            <h3>تحويل التاريخ</h3>
+            <p>ميلادي ↔ هجري</p>
+          </div></a
+        >
+        <a href="/alrusum-albankiya" class="link-card"
+          ><div class="num">15</div>
+          <div class="info">
+            <h3>الرسوم البنكية</h3>
+            <p>مقارنة السابقة والمحدثة</p>
+          </div></a
+        >
+        <a href="/tahwil-alumla" class="link-card"
+          ><div class="num">16</div>
+          <div class="info">
+            <h3>تحويل العملات</h3>
+            <p>أسعار مباشرة يومية</p>
+          </div></a
+        >
+        <a href="/asham-saudia" class="link-card"
+          ><div class="num">17</div>
+          <div class="info">
+            <h3>الأسهم السعودية</h3>
+            <p>تداول مباشر — 40 شركة</p>
+          </div></a
+        >
+      </div>
+    </div>
+  <div class="footer">
+     <div class="ftr-r">
+        <h3>By Abdullah Almalki <h3>
+        <p>جميع الحقوق محفوظة &copy; 2026</p>
+      </div>
+    </div>
+    <script src="nesab-ai.js"></script>
+  <script>
+(function(){
+  var a = document.querySelector('a.logo');
+  if (!a) return;
+  // Always non-clickable on index itself
+  var p = location.pathname;
+  if (p === '/' || p === '' || p === '/index.html') {
+    a.removeAttribute('href'); a.style.cursor = 'default'; a.style.pointerEvents = 'none'; return;
+  }
+  // Clickable only when the user came directly from the home page
+  var r = document.referrer, o = location.origin;
+  var fromHome = r && (r === o || r === o + '/' || r === o + '/index.html');
+  if (!fromHome) {
+    a.removeAttribute('href'); a.style.cursor = 'default'; a.style.pointerEvents = 'none';
+  }
+})();
+</script>
+
+  <div class="page-meta">
+    <div class="page-meta-site">
+      <a class="pm-url" href="https://www.nesab.sa" target="_blank" rel="noopener noreferrer">www.nesab.sa</a>
+    </div>
+    <div class="pm-row2">
+      <span class="pm-update">آخر تحديث: مارس 2026</span>
+      <div class="pm-icons">
+        <a href="https://t.me/Nesab.sa" target="_blank" class="tg"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+        <a href="https://twitter.com/Banker_Vp" target="_blank" class="tw"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="https://wa.me/966500768074" target="_blank" class="wa"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+      </div>
+    </div>
+    <div class="pm-email"><a href="mailto:info@Nesab.sa">info@Nesab.sa</a></div>
+  </div>
+
+
+
+  <div class="nesab-disclaimer-bar">
+    ⚠️ النتائج تقريبية لأغراض توعوية فقط — لا تُشكّل نصيحة مالية أو قانونية مهنية.
+    <a href="/disclaimer">إخلاء المسؤولية الكامل</a>
+  </div>
+</body>
+</html>

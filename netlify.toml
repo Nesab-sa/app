@@ -1,0 +1,134 @@
+[build]
+publish = "."
+
+  [build.processing]
+  skip_processing = false
+
+    [build.processing.css]
+
+    [build.processing.html]
+    pretty_urls = true
+
+    [build.processing.images]
+
+    [build.processing.js]
+
+[[redirects]]
+from = "/index.html"
+to = "/"
+status = 301
+force = false
+
+[[redirects]]
+from = "/index"
+to = "/"
+status = 301
+force = false
+
+[[redirects]]
+from = "/alrusum-albankiya.html"
+to = "/alrusum-albankiya"
+status = 301
+force = false
+
+[[redirects]]
+from = "/aqari-aadi.html"
+to = "/aqari-aadi"
+status = 301
+force = false
+
+[[redirects]]
+from = "/aqari-plus.html"
+to = "/aqari-plus"
+status = 301
+force = false
+
+[[redirects]]
+from = "/asham-saudia.html"
+to = "/asham-saudia"
+status = 301
+force = false
+
+[[redirects]]
+from = "/disclaimer.html"
+to = "/disclaimer"
+status = 301
+force = false
+
+[[redirects]]
+from = "/hasibat-alumr.html"
+to = "/hasibat-alumr"
+status = 301
+force = false
+
+[[redirects]]
+from = "/himaya-iddikhar.html"
+to = "/himaya-iddikhar"
+status = 301
+force = false
+
+[[redirects]]
+from = "/istiqtaa-naam-la.html"
+to = "/istiqtaa-naam-la"
+status = 301
+force = false
+
+[[redirects]]
+from = "/khayrat.html"
+to = "/khayrat"
+status = 301
+force = false
+
+[[redirects]]
+from = "/niqat-albay.html"
+to = "/niqat-albay"
+status = 301
+force = false
+
+[[redirects]]
+from = "/nisbat-alistiqtaa.html"
+to = "/nisbat-alistiqtaa"
+status = 301
+force = false
+
+[[redirects]]
+from = "/shakhsi-mukhtasar.html"
+to = "/shakhsi-mukhtasar"
+status = 301
+force = false
+
+[[redirects]]
+from = "/shakhsi-plus.html"
+to = "/shakhsi-plus"
+status = 301
+force = false
+
+[[redirects]]
+from = "/shira-madyoniya.html"
+to = "/shira-madyoniya"
+status = 301
+force = false
+
+[[redirects]]
+from = "/tahwil-altarikh.html"
+to = "/tahwil-altarikh"
+status = 301
+force = false
+
+[[redirects]]
+from = "/tahwil-alumla.html"
+to = "/tahwil-alumla"
+status = 301
+force = false
+
+[[redirects]]
+from = "/tajiri-aadi.html"
+to = "/tajiri-aadi"
+status = 301
+force = false
+
+[[redirects]]
+from = "/tajiri-makro.html"
+to = "/tajiri-makro"
+status = 301
+force = false

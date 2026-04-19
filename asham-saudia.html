@@ -1,0 +1,968 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicon.png" />
+    <title>الأسهم السعودية — تداول مباشر - نسب</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #090a0f;
+        --card: #12141d;
+        --card2: #1a1d29;
+        --border: #242731;
+        --border2: #2d313e;
+        --neon2: #5d5fef;
+        --gold: #fde68a;
+        --green: #00d68f;
+        --red: #ff3d6b;
+        --text: #ffffff;
+        --muted: #8e929d;
+        --inp: #0c0d14;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      img { max-width: 100%; height: auto; }
+      body {
+        font-family: "Cairo", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100dvh;
+        direction: rtl;
+        overflow-x: hidden;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(circle at 20% 10%, rgba(93,95,239,0.08) 0%, transparent 40%),
+          radial-gradient(circle at 80% 90%, rgba(168,85,247,0.06) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* ── Header ── */
+      .hdr {
+        border-bottom: 1px solid var(--border2);
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        z-index: 10;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .logo-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+      .logo-txt p { font-size: clamp(0.75rem,2vw,1.05rem); color: var(--text); margin: 0; }
+      a.logo { display: inline-flex; width: fit-content; max-width: 100%; }
+      .subpage-logo {
+        width: clamp(110px,14vw,120px);
+        height: auto;
+        object-fit: contain;
+        display: block;
+        margin: 0 auto 4px auto;
+        background: none;
+        box-shadow: none;
+        mix-blend-mode: normal;
+      }
+
+      /* ── Header Meta (glass frame) ── */
+      .hdr-meta {
+        display: flex; flex-direction: column; align-items: center;
+        gap: 8px; padding: 12px 18px;
+        border: 1px solid rgba(93,95,239,0.35);
+        border-radius: 16px;
+        background: rgba(255,255,255,0.025);
+        box-shadow: 0 0 18px rgba(93,95,239,0.12), inset 0 0 12px rgba(93,95,239,0.04);
+        min-width: 210px; max-width: 270px; text-align: center;
+      }
+      .hdr-url-pill {
+        background: rgba(93,95,239,0.12);
+        border: 1px solid rgba(93,95,239,0.45);
+        border-radius: 50px; padding: 4px 18px;
+        box-shadow: 0 0 10px rgba(93,95,239,0.2); width: 100%;
+      }
+      .hdr-url-pill a {
+        font-size: 0.8rem; font-weight: 700; letter-spacing: 1px;
+        color: #c8c9ff; text-decoration: none; display: block;
+      }
+      .hdr-url-pill a:hover { color: #fff; }
+      .hdr-row2 {
+        display: flex; align-items: center; justify-content: space-between;
+        width: 100%; gap: 8px;
+      }
+      .hdr-update { font-size: 0.72rem; font-weight: 600; color: #4ade80; white-space: nowrap; }
+      .hdr-icons { display: flex; align-items: center; gap: 6px; }
+      .hdr-icons a {
+        width: 28px; height: 28px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        transition: opacity 0.2s, transform 0.2s; flex-shrink: 0;
+      }
+      .hdr-icons a:hover { opacity: 0.85; transform: scale(1.1); }
+      .hdr-icons .wa { background: #25d366; }
+      .hdr-icons .tw { background: #000; border: 1px solid #333; }
+      .hdr-icons .tg { background: #0088cc; }
+      .hdr-email a {
+        font-size: 0.7rem; color: #8e929d; text-decoration: none;
+        transition: color 0.2s; letter-spacing: 0.5px;
+      }
+      .hdr-email a:hover { color: #c8c9ff; }
+
+      /* ── Main ── */
+      .main {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 16px 14px 80px;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ── Summary Cards ── */
+      .sum-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .sum-card {
+        background: var(--card2);
+        border: 1px solid var(--border2);
+        border-radius: 14px;
+        padding: 14px 12px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        transition: border-color 0.2s;
+      }
+      .sum-card::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        border-radius: 14px 14px 0 0;
+      }
+      .sum-card.tasi-card::before { background: linear-gradient(90deg, var(--neon2), #a78bfa); }
+      .sum-card.up-card::before { background: linear-gradient(90deg, var(--green), #34d399); }
+      .sum-card.down-card::before { background: linear-gradient(90deg, var(--red), #fb7185); }
+      .sum-card.tasi-card {
+        box-shadow: 0 0 16px rgba(93,95,239,0.08);
+        border-color: rgba(93,95,239,0.25);
+      }
+      .sum-card.up-card {
+        box-shadow: 0 0 16px rgba(0,214,143,0.07);
+        border-color: rgba(0,214,143,0.2);
+      }
+      .sum-card.down-card {
+        box-shadow: 0 0 16px rgba(255,61,107,0.07);
+        border-color: rgba(255,61,107,0.2);
+      }
+      .sum-lbl {
+        font-size: 0.62rem;
+        color: var(--muted);
+        font-weight: 600;
+        margin-bottom: 6px;
+        letter-spacing: 0.3px;
+      }
+      .sum-val {
+        font-size: 1.25rem;
+        font-weight: 900;
+        line-height: 1.1;
+      }
+      .sum-val.green { color: var(--green); }
+      .sum-val.red { color: var(--red); }
+      .sum-sub {
+        font-size: 0.68rem;
+        color: var(--muted);
+        margin-top: 4px;
+        font-weight: 600;
+      }
+
+      /* ── Sticky Toolbar ── */
+      .toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 9;
+        background: var(--bg);
+        padding: 10px 0 8px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid var(--border);
+      }
+      .search-wrap {
+        position: relative;
+        margin-bottom: 8px;
+      }
+      .search-icon {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--muted);
+        font-size: 0.85rem;
+        pointer-events: none;
+      }
+      .search-box {
+        width: 100%;
+        padding: 10px 36px 10px 14px;
+        background: var(--inp);
+        border: 1px solid var(--border2);
+        border-radius: 10px;
+        color: var(--text);
+        font-family: "Cairo", sans-serif;
+        font-size: 0.88rem;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+      .search-box:focus {
+        outline: none;
+        border-color: var(--neon2);
+        box-shadow: 0 0 0 3px rgba(93,95,239,0.12);
+      }
+      .filter-pills {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .pill {
+        padding: 5px 13px;
+        border-radius: 20px;
+        font-size: 0.71rem;
+        font-weight: 700;
+        cursor: pointer;
+        border: 1px solid var(--border2);
+        background: var(--inp);
+        color: var(--muted);
+        transition: 0.15s;
+        font-family: "Cairo", sans-serif;
+        white-space: nowrap;
+      }
+      .pill.active {
+        background: var(--neon2);
+        color: #fff;
+        border-color: var(--neon2);
+        box-shadow: 0 0 8px rgba(93,95,239,0.3);
+      }
+      .pill:hover:not(.active) {
+        border-color: var(--muted);
+        color: var(--text);
+      }
+
+      /* ── Status bar ── */
+      .status-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.68rem;
+        color: var(--muted);
+        margin-bottom: 10px;
+        padding: 0 2px;
+      }
+      .live-dot {
+        width: 7px; height: 7px;
+        border-radius: 50%;
+        background: var(--green);
+        display: inline-block;
+        animation: pulse 1.5s infinite;
+        margin-left: 5px;
+      }
+      .live-dot.stale { background: var(--gold); animation: none; }
+      @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+      /* ── Stock Rows ── */
+      .stocks-list { display: flex; flex-direction: column; gap: 6px; }
+      .stock-row {
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        transition: background 0.15s, border-color 0.15s, transform 0.1s;
+        cursor: default;
+        position: relative;
+        overflow: hidden;
+      }
+      .stock-row::before {
+        content: "";
+        position: absolute;
+        right: 0; top: 0; bottom: 0;
+        width: 3px;
+        border-radius: 0 12px 12px 0;
+      }
+      .stock-row.up::before { background: var(--green); }
+      .stock-row.down::before { background: var(--red); }
+      .stock-row.flat::before { background: var(--muted); }
+      .stock-row.up { border-color: rgba(0,214,143,0.15); }
+      .stock-row.down { border-color: rgba(255,61,107,0.12); }
+      @media (hover:hover) {
+        .stock-row:hover {
+          background: var(--card2);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+        .stock-row.up:hover { border-color: rgba(0,214,143,0.3); }
+        .stock-row.down:hover { border-color: rgba(255,61,107,0.25); }
+      }
+      .stock-info { min-width: 0; }
+      .stock-name {
+        font-weight: 700;
+        font-size: 0.82rem;
+        color: #fff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .stock-code {
+        font-size: 0.63rem;
+        color: var(--muted);
+        margin-top: 1px;
+        direction: ltr;
+        text-align: right;
+      }
+      .stock-price-col { text-align: center; }
+      .stock-price {
+        font-weight: 900;
+        font-size: 1rem;
+        direction: ltr;
+        color: #fff;
+        letter-spacing: 0.5px;
+      }
+      .price-lbl { font-size: 0.6rem; color: var(--muted); margin-top: 1px; }
+      .stock-change-col { text-align: left; direction: ltr; min-width: 70px; }
+      .change-val {
+        font-weight: 700;
+        font-size: 0.78rem;
+        direction: ltr;
+      }
+      .change-val.up { color: var(--green); }
+      .change-val.down { color: var(--red); }
+      .change-val.flat { color: var(--muted); }
+      .change-chip {
+        display: inline-block;
+        padding: 1px 7px;
+        border-radius: 10px;
+        font-size: 0.68rem;
+        font-weight: 700;
+        margin-top: 2px;
+        direction: ltr;
+      }
+      .change-chip.up { background: rgba(0,214,143,0.13); color: var(--green); }
+      .change-chip.down { background: rgba(255,61,107,0.13); color: var(--red); }
+      .change-chip.flat { background: rgba(142,146,157,0.1); color: var(--muted); }
+      .stock-vol { font-size: 0.6rem; color: var(--muted); margin-top: 2px; direction: ltr; }
+
+      /* ── Skeleton ── */
+      .skeleton-row {
+        height: 64px;
+        border-radius: 12px;
+        background: linear-gradient(90deg, var(--card) 25%, var(--card2) 50%, var(--card) 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.2s infinite;
+        margin-bottom: 6px;
+      }
+      @keyframes shimmer {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+      }
+
+      /* ── Empty / Error ── */
+      .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+      .empty-state .icon { font-size: 2rem; margin-bottom: 8px; }
+
+      /* ── Footer ── */
+      .footer {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 10px 20px 14px;
+        position: relative;
+        z-index: 1;
+      }
+      .ftr-r {
+        font-size: 0.63rem; color: #fff;
+        display: flex; flex-direction: column; align-items: center; gap: 4px;
+      }
+
+      /* ── Responsive ── */
+      @media (max-width: 600px) {
+        .sum-grid { grid-template-columns: repeat(3,1fr); gap: 6px; }
+        .sum-val { font-size: 1rem; }
+        .sum-lbl { font-size: 0.58rem; }
+        .stock-row { padding: 10px 10px 10px 12px; gap: 6px; }
+        .stock-name { font-size: 0.76rem; }
+        .stock-price { font-size: 0.9rem; }
+        .hdr-meta { min-width: 0; width: 100%; max-width: 100%; }
+        .hdr-row2 { flex-wrap: wrap; justify-content: center; gap: 6px; }
+      }
+      @media (max-width: 380px) {
+        .stock-row { grid-template-columns: 1fr auto; }
+        .stock-change-col { display: none; }
+      }
+    
+    /* Disclaimer bar */
+    .nesab-disclaimer-bar {
+      background: var(--card2, #1a1d29);
+      border-top: 1px solid rgba(226, 176, 74, 0.4);
+      padding: 10px 20px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted, #8e929d);
+      direction: rtl;
+      position: relative;
+      z-index: 10;
+    }
+    .nesab-disclaimer-bar a {
+      color: var(--gold, #fde68a);
+      text-decoration: underline;
+      margin-right: 8px;
+    }
+    
+                                /* === Header — Material Design 56px mobile / 64px tablet+ === */
+    :root {
+      --logo-size: 36px;
+      --header-px: 16px;
+      --header-py: 10px;
+      --title-size: 16px;
+      --subtitle-size: 12px;
+    }
+
+    /* .hdr = .page-header */
+    .hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      direction: rtl;
+      padding: var(--header-py) var(--header-px);
+      min-height: calc(var(--logo-size) + var(--header-py) * 2);
+      box-sizing: border-box;
+      border-bottom: 1px solid var(--border2);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* .logo-wrap = .hdr-brand */
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-direction: row;
+    }
+
+    /* .subpage-logo = .hdr-logo */
+    .subpage-logo {
+      width: var(--logo-size);
+      height: var(--logo-size);
+      flex: 0 0 var(--logo-size);
+      object-fit: contain;
+    }
+
+    /* .logo-txt = .hdr-text */
+    .logo-txt {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    /* .logo-txt h1 = .hdr-title */
+    .logo-txt h1 {
+      font-size: var(--title-size);
+      font-weight: 600;
+      line-height: 1.2;
+      margin: 0;
+    }
+
+    /* .logo-txt p = .hdr-subtitle */
+    .logo-txt p {
+      font-size: var(--subtitle-size);
+      line-height: 1.2;
+      margin: 0;
+      opacity: 0.6;
+    }
+
+    @media (min-width: 768px) {
+      :root {
+        --logo-size: 40px;
+        --header-px: 24px;
+        --header-py: 12px;
+        --title-size: 17px;
+        --subtitle-size: 13px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      :root {
+        --logo-size: 44px;
+        --header-px: 32px;
+        --header-py: 14px;
+        --title-size: 18px;
+        --subtitle-size: 13px;
+      }
+    }
+
+    /* === Page Meta — bottom section === */
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+    .main { flex: 1; }
+
+    .page-meta {
+      border-top: 1px solid var(--border2);
+      background: var(--card2);
+      padding: 14px 20px;
+      padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .pm-url {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #c8c9ff;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      display: block;
+    }
+    .pm-url:hover { color: #fff; }
+    .page-meta-site {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .pm-row2 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .pm-update {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #4ade80;
+      white-space: nowrap;
+    }
+    .pm-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pm-icons a {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+    .pm-icons a:hover { opacity: 0.85; transform: scale(1.1); }
+    .pm-email a {
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+      letter-spacing: 0.3px;
+    }
+    .pm-email a:hover { color: #c8c9ff; }
+
+    /* === Container responsive fix === */
+    .main {
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      box-sizing: border-box;
+    }
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .main {
+        max-width: 860px !important;
+        padding-left: 24px !important;
+        padding-right: 24px !important;
+      }
+    }
+    @media (min-width: 1024px) {
+      .main {
+        max-width: 960px !important;
+        padding-left: 32px !important;
+        padding-right: 32px !important;
+      }
+    }
+
+    /* Overflow & accessibility */
+    body { overflow-x: hidden; min-width: 320px; }
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    @media (max-width: 600px) {
+      input, select, textarea { font-size: 16px !important; }
+    }
+
+    </style>
+  </head>
+  <body>
+    <div class="hdr">
+      <div class="logo-wrap">
+        <a href="/" class="logo" aria-label="Nesab">
+          <img src="assets-logo/dar-2.svg" alt="Nesab Logo" loading="eager" class="subpage-logo">
+        </a>
+        <div class="logo-txt">
+          <h1>الأسهم السعودية</h1>
+          <p>نسب</p>
+        </div>
+      </div>
+      </div>
+    <div class="main">
+      <!-- Summary Cards -->
+      <div class="sum-grid">
+        <div class="sum-card tasi-card">
+          <div class="sum-lbl">السوق السعودي (تداول)</div>
+          <div class="sum-val" id="tasiVal">--</div>
+          <div class="sum-sub" id="tasiSub">TASI</div>
+        </div>
+        <div class="sum-card up-card">
+          <div class="sum-lbl">الشركات الصاعدة</div>
+          <div class="sum-val green" id="upsCount">--</div>
+          <div class="sum-sub">▲ صاعدة</div>
+        </div>
+        <div class="sum-card down-card">
+          <div class="sum-lbl">الشركات الهابطة</div>
+          <div class="sum-val red" id="downsCount">--</div>
+          <div class="sum-sub">▼ هابطة</div>
+        </div>
+      </div>
+
+      <!-- Sticky Toolbar -->
+      <div class="toolbar">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-box" id="searchBox"
+            placeholder="ابحث عن شركة أو رمز..." oninput="filterStocks()" autocomplete="off" />
+        </div>
+        <div class="filter-pills" id="sectorTabs">
+          <button class="pill active" onclick="filterSector('all',this)">الكل</button>
+          <button class="pill" onclick="filterSector('بنوك',this)">البنوك</button>
+          <button class="pill" onclick="filterSector('طاقة',this)">الطاقة</button>
+          <button class="pill" onclick="filterSector('تأمين',this)">التأمين</button>
+          <button class="pill" onclick="filterSector('بتروكيماويات',this)">البتروكيماويات</button>
+          <button class="pill" onclick="filterSector('اتصالات',this)">الاتصالات</button>
+          <button class="pill" onclick="filterSector('تجزئة',this)">التجزئة</button>
+          <button class="pill" onclick="filterSector('عقار',this)">العقار</button>
+        </div>
+      </div>
+
+            <div style="background:rgba(226,176,74,0.08);border:1px solid rgba(226,176,74,0.35);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:#d4a847;direction:rtl;text-align:right;">
+        📊 هذه الحاسبة لأغراض التوعية المالية فقط ولا تُعدّ توصية باستثمار أو بيع أو شراء أوراق مالية. الاستثمار في الأسهم ينطوي على مخاطر.
+      </div>
+      <!-- Status -->
+      <div class="status-bar">
+        <span id="updateTime"><span class="live-dot stale"></span> جاري التحميل...</span>
+        <span id="stockCount" style="color:var(--muted)"></span>
+      </div>
+
+      <!-- Stocks List -->
+      <div id="stocksContainer">
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="ftr-r">
+        <h3>By Abdullah Almalki</h3>
+        <p>جميع الحقوق محفوظة &copy; 2026</p>
+      </div>
+    </div>
+
+    <script>
+    (function () {
+      'use strict';
+
+      var CACHE_KEY = 'nesab_stocks_v2';
+      var CACHE_TTL = 60000; // 60 seconds
+      var allStocks = [];
+      var currentSector = 'all';
+      var liveDataLoaded = false;
+
+      var SAUDI_STOCKS = [
+        { symbol: '2222', name: 'أرامكو السعودية', sector: 'طاقة' },
+        { symbol: '1180', name: 'الأهلي السعودي', sector: 'بنوك' },
+        { symbol: '1010', name: 'الرياض', sector: 'بنوك' },
+        { symbol: '1050', name: 'البنك السعودي الفرنسي', sector: 'بنوك' },
+        { symbol: '1060', name: 'الأول', sector: 'بنوك' },
+        { symbol: '1080', name: 'العربي الوطني', sector: 'بنوك' },
+        { symbol: '1020', name: 'الجزيرة', sector: 'بنوك' },
+        { symbol: '1030', name: 'الاستثمار', sector: 'بنوك' },
+        { symbol: '1040', name: 'البلاد', sector: 'بنوك' },
+        { symbol: '1140', name: 'البنك السعودي للتصدير والاستيراد', sector: 'بنوك' },
+        { symbol: '1150', name: 'بنك الإنماء', sector: 'بنوك' },
+        { symbol: '2010', name: 'سابك', sector: 'بتروكيماويات' },
+        { symbol: '2020', name: 'سافكو', sector: 'بتروكيماويات' },
+        { symbol: '2060', name: 'التصنيع', sector: 'بتروكيماويات' },
+        { symbol: '2170', name: 'اللجين', sector: 'بتروكيماويات' },
+        { symbol: '2250', name: 'ينساب', sector: 'بتروكيماويات' },
+        { symbol: '2310', name: 'سبكيم', sector: 'بتروكيماويات' },
+        { symbol: '2350', name: 'كيان', sector: 'بتروكيماويات' },
+        { symbol: '2380', name: 'بترورابغ', sector: 'بتروكيماويات' },
+        { symbol: '7010', name: 'STC', sector: 'اتصالات' },
+        { symbol: '7020', name: 'اتحاد اتصالات (موبايلي)', sector: 'اتصالات' },
+        { symbol: '7030', name: 'زين السعودية', sector: 'اتصالات' },
+        { symbol: '4190', name: 'جرير', sector: 'تجزئة' },
+        { symbol: '4001', name: 'أسمنت الشرقية', sector: 'تجزئة' },
+        { symbol: '4003', name: 'أسمنت المدينة', sector: 'تجزئة' },
+        { symbol: '4200', name: 'الدريس', sector: 'تجزئة' },
+        { symbol: '4210', name: 'سيسكو', sector: 'تجزئة' },
+        { symbol: '8010', name: 'التعاونية', sector: 'تأمين' },
+        { symbol: '8020', name: 'ملاذ للتأمين', sector: 'تأمين' },
+        { symbol: '8030', name: 'ميدغلف', sector: 'تأمين' },
+        { symbol: '8040', name: 'أليانز', sector: 'تأمين' },
+        { symbol: '8050', name: 'سلامة', sector: 'تأمين' },
+        { symbol: '4300', name: 'دار الأركان', sector: 'عقار' },
+        { symbol: '4310', name: 'مكة للإنشاء', sector: 'عقار' },
+        { symbol: '4320', name: 'الأندلس', sector: 'عقار' },
+        { symbol: '4020', name: 'العقارية', sector: 'عقار' },
+        { symbol: '2030', name: 'المصافي', sector: 'طاقة' },
+        { symbol: '2090', name: 'الجبس', sector: 'طاقة' },
+        { symbol: '4030', name: 'البحري', sector: 'طاقة' },
+        { symbol: '2082', name: 'أكوا باور', sector: 'طاقة' },
+      ];
+
+      /* ── Cache helpers ── */
+      function saveCache(stocks) {
+        try {
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ t: Date.now(), stocks: stocks }));
+        } catch (e) {}
+      }
+
+      function loadCache() {
+        try {
+          var raw = localStorage.getItem(CACHE_KEY);
+          if (!raw) return null;
+          var obj = JSON.parse(raw);
+          if (Date.now() - obj.t > CACHE_TTL) return null;
+          return obj.stocks;
+        } catch (e) { return null; }
+      }
+
+      /* ── Render summary ── */
+      function updateSummary(stocks) {
+        var ups = 0, downs = 0, total = 0;
+        stocks.forEach(function (s) {
+          if (s.change > 0) ups++;
+          else if (s.change < 0) downs++;
+          if (s.price > 0) total += s.price;
+        });
+        var avg = stocks.length > 0 ? (total / stocks.length * 100) : 0;
+        var tasiEl = document.getElementById('tasiVal');
+        var tasiSub = document.getElementById('tasiSub');
+        tasiEl.textContent = Math.round(avg).toLocaleString('en-US');
+        tasiSub.textContent = ups + ' صاعد / ' + downs + ' هابط';
+        document.getElementById('upsCount').textContent = ups;
+        document.getElementById('downsCount').textContent = downs;
+      }
+
+      /* ── Render stock rows ── */
+      function renderStocks() {
+        var search = (document.getElementById('searchBox').value || '').toLowerCase().trim();
+        var filtered = allStocks.filter(function (s) {
+          var matchSector = currentSector === 'all' || s.sector === currentSector;
+          var matchSearch = !search ||
+            s.name.toLowerCase().indexOf(search) > -1 ||
+            s.symbol.indexOf(search) > -1;
+          return matchSector && matchSearch;
+        });
+
+        var container = document.getElementById('stocksContainer');
+        document.getElementById('stockCount').textContent =
+          filtered.length + ' شركة';
+
+        if (filtered.length === 0) {
+          container.innerHTML =
+            '<div class="empty-state"><div class="icon">🔍</div>لا توجد نتائج</div>';
+          return;
+        }
+
+        var rows = filtered.map(function (s) {
+          var dir = s.change > 0 ? 'up' : s.change < 0 ? 'down' : 'flat';
+          var arrow = s.change > 0 ? '▲' : s.change < 0 ? '▼' : '–';
+          var vol = s.volume > 1000000
+            ? (s.volume / 1000000).toFixed(1) + 'M'
+            : s.volume > 1000
+              ? Math.round(s.volume / 1000) + 'K'
+              : (s.volume > 0 ? s.volume : '—');
+          return '<div class="stock-row ' + dir + '">' +
+            '<div class="stock-info">' +
+              '<div class="stock-name">' + s.name + '</div>' +
+              '<div class="stock-code">' + s.symbol + '</div>' +
+            '</div>' +
+            '<div class="stock-price-col">' +
+              '<div class="stock-price">' + s.price.toFixed(2) + '</div>' +
+              '<div class="price-lbl">ريال</div>' +
+            '</div>' +
+            '<div class="stock-change-col">' +
+              '<div class="change-val ' + dir + '">' + arrow + ' ' + Math.abs(s.change).toFixed(2) + '</div>' +
+              '<div class="change-chip ' + dir + '">' + (s.change >= 0 ? '+' : '') + s.changePct.toFixed(2) + '%</div>' +
+              '<div class="stock-vol">' + vol + '</div>' +
+            '</div>' +
+          '</div>';
+        });
+
+        requestAnimationFrame(function () {
+          container.innerHTML = '<div class="stocks-list">' + rows.join('') + '</div>';
+        });
+      }
+
+      /* ── Update time display ── */
+      function setUpdateTime(isLive) {
+        var now = new Date();
+        var t = now.getHours().toString().padStart(2, '0') + ':' +
+                now.getMinutes().toString().padStart(2, '0');
+        var d = now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear();
+        var dot = isLive
+          ? '<span class="live-dot"></span>'
+          : '<span class="live-dot stale"></span>';
+        document.getElementById('updateTime').innerHTML =
+          dot + (isLive ? ' مباشر — ' : ' مؤقت — ') + d + ' ' + t;
+      }
+
+      /* ── Use data (from cache or live) ── */
+      function applyData(stocks, isLive) {
+        allStocks = stocks;
+        updateSummary(stocks);
+        renderStocks();
+        setUpdateTime(isLive);
+      }
+
+      /* ── Fetch live data ── */
+      async function fetchLive() {
+        var symbols = SAUDI_STOCKS.map(function (s) { return s.symbol + '.SR'; }).join(',');
+        var url = 'https://query1.finance.yahoo.com/v7/finance/quote?symbols=' + symbols +
+          '&fields=regularMarketPrice,regularMarketChange,regularMarketChangePercent,regularMarketVolume,regularMarketPreviousClose';
+        var res = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url));
+        var data = await res.json();
+        if (!data.quoteResponse || !data.quoteResponse.result) throw new Error('bad response');
+        return data.quoteResponse.result.map(function (q) {
+          var info = SAUDI_STOCKS.find(function (s) { return q.symbol && q.symbol.startsWith(s.symbol); });
+          return {
+            symbol: q.symbol ? q.symbol.replace('.SR', '') : '',
+            name: info ? info.name : (q.shortName || q.symbol || ''),
+            sector: info ? info.sector : 'أخرى',
+            price: q.regularMarketPrice || 0,
+            change: q.regularMarketChange || 0,
+            changePct: q.regularMarketChangePercent || 0,
+            volume: q.regularMarketVolume || 0,
+            prevClose: q.regularMarketPreviousClose || 0,
+          };
+        });
+      }
+
+      /* ── Fallback (demo) ── */
+      function makeFallback() {
+        return SAUDI_STOCKS.map(function (s) {
+          var base = Math.random() * 200 + 10;
+          var chg = (Math.random() - 0.5) * 4;
+          return {
+            symbol: s.symbol, name: s.name, sector: s.sector,
+            price: Math.round(base * 100) / 100,
+            change: Math.round(chg * 100) / 100,
+            changePct: Math.round((chg / base) * 10000) / 100,
+            volume: Math.floor(Math.random() * 5000000),
+            prevClose: Math.round((base - chg) * 100) / 100,
+          };
+        });
+      }
+
+      /* ── Boot sequence ── */
+      // Step 1: show cache instantly if available
+      var cached = loadCache();
+      if (cached && cached.length > 0) {
+        applyData(cached, false);
+      }
+
+      // Step 2: fetch live in background
+      fetchLive().then(function (stocks) {
+        liveDataLoaded = true;
+        saveCache(stocks);
+        applyData(stocks, true);
+      }).catch(function () {
+        if (!liveDataLoaded && allStocks.length === 0) {
+          var fb = makeFallback();
+          applyData(fb, false);
+          document.getElementById('updateTime').innerHTML =
+            '<span class="live-dot stale"></span> بيانات تجريبية';
+        }
+      });
+
+      // Step 3: refresh every 60s
+      setInterval(function () {
+        fetchLive().then(function (stocks) {
+          saveCache(stocks);
+          applyData(stocks, true);
+        }).catch(function () {});
+      }, CACHE_TTL);
+
+      /* ── Public filter functions ── */
+      window.filterStocks = function () { renderStocks(); };
+      window.filterSector = function (sector, el) {
+        currentSector = sector;
+        document.querySelectorAll('.pill').forEach(function (p) { p.classList.remove('active'); });
+        el.classList.add('active');
+        renderStocks();
+      };
+    })();
+    </script>
+    <script src="nesab-ai.js"></script>
+    <script>
+    (function(){
+      var a = document.querySelector('a.logo');
+      if (!a) return;
+      var p = location.pathname;
+      if (p === '/' || p === '' || p === '/index.html') {
+        a.removeAttribute('href'); a.style.cursor = 'default'; a.style.pointerEvents = 'none'; return;
+      }
+      var r = document.referrer, o = location.origin;
+      var fromHome = r && (r === o || r === o + '/' || r === o + '/index.html');
+      if (!fromHome) {
+        a.removeAttribute('href'); a.style.cursor = 'default'; a.style.pointerEvents = 'none';
+      }
+    })();
+    </script>
+
+  <div class="page-meta">
+    <div class="page-meta-site">
+      <a class="pm-url" href="https://www.nesab.sa" target="_blank" rel="noopener noreferrer">www.nesab.sa</a>
+    </div>
+    <div class="pm-row2">
+      <span class="pm-update">آخر تحديث: مارس 2026</span>
+      <div class="pm-icons">
+        <a href="https://t.me/Nesab.sa" target="_blank" class="tg"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+        <a href="https://twitter.com/Banker_Vp" target="_blank" class="tw"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="https://wa.me/966500768074" target="_blank" class="wa"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+      </div>
+    </div>
+    <div class="pm-email"><a href="mailto:info@Nesab.sa">info@Nesab.sa</a></div>
+  </div>
+
+
+  
+  <div class="nesab-disclaimer-bar">
+    ⚠️ النتائج تقريبية لأغراض توعوية فقط — لا تُشكّل نصيحة مالية أو قانونية مهنية.
+    <a href="/disclaimer">إخلاء المسؤولية الكامل</a>
+  </div>
+</body>
+</html>
