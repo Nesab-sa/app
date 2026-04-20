@@ -9,6 +9,8 @@
   const ICON_SRC = "./technical-support.png";
   const STORAGE_KEY = "nesab_ai_position";
   const HAS_SAVED_POSITION = "nesab_ai_has_saved_position";
+  // Phase 8 — in-session conversation memory (sent to chat.php as history param)
+  let conversationHistory = [];
 
   // ─── BUILD HTML ───
   let html = '<div class="nesab-ai-widget" id="nesabAiWidget">';
@@ -508,22 +510,30 @@
 
       try {
         // Try calling the API first
-        const response = await fetch("/api/assistant", {
+        // Extract page slug from URL (e.g. "/shakhsi-plus.html" -> "shakhsi-plus")
+        const pageContext = window.location.pathname.split("/").pop().replace(/\.(html?|php)$/, "") || "";
+
+        const response = await fetch("https://api.nesab.sa/chat.php", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
             message: question,
-            context: "",
+            context: pageContext,
+            history: conversationHistory.slice(-8),
+            // user_id omitted — backend resolves identity via IP fallback
           }),
         });
 
         if (response.ok) {
           const data = await response.json();
-          const answer = data.reply;
+          const answer = data.reply || getResponse(question); // fallback if reply field absent
           loadingMsg.innerHTML =
             '<span class="nesab-ai-name">نسب:</span> ' + answer;
+          // Accumulate this turn in session memory
+          conversationHistory.push({ role: "user", content: question });
+          conversationHistory.push({ role: "assistant", content: answer });
         } else {
           // Fall back to local KB if API fails
           const answer = getResponse(question);

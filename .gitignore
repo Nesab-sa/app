@@ -1,0 +1,16 @@
+﻿# Nesab AI — server secrets (NEVER commit)
+Nesab.Ai/config.php
+
+# Runtime-generated files (logs, rate tracking, session data)
+Nesab.Ai/logs/*.log
+Nesab.Ai/memory/sessions/*.json
+Nesab.Ai/security/rate_data/*.json
+
+# Backup files
+*.bak-*
+*.bak
+
+# OS & editor
+.DS_Store
+Thumbs.db
+.vscode/
