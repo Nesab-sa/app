@@ -68,7 +68,8 @@ function get_relevant_knowledge(string $context): string
                       'pos_rules', 'savings_rules'];
     }
 
-    // Always add disclaimer
+    // Always add founder profile and disclaimer
+    $blockKeys[] = 'founder_profile';
     $blockKeys[] = 'general_disclaimer';
 
     // ── Build output string ───────────────────────────────────────────────────
