@@ -1,0 +1,57 @@
+# Nesab FAQ
+
+## What is Nesab?
+
+Nesab is a Saudi fintech product focused on helping users understand, plan, and improve their financial decisions using calculators, tools, and AI-enabled guidance tailored to the local market.
+
+## What is Nesab Ai?
+
+Nesab Ai is the intelligent assistant layer connected to Nesab’s tools.  
+It:
+- Answers questions about financial concepts
+- Explains how Nesab calculators work
+- Helps users choose the right tool for their situation
+- Uses uploaded knowledge and internal rules to ground its answers
+
+## Is Nesab Ai a replacement for banks or official credit decisions?
+
+No.  
+Nesab Ai:
+- Provides informational guidance and estimates
+- Does not issue binding approvals or credit decisions
+- Should always be treated as a support tool, not an official authority
+
+## What types of questions can Nesab Ai answer?
+
+Examples:
+- “ما هي نسبة الاستقطاع المناسبة للموظف الحكومي؟”
+- “كيف أحسب القسط التقريبي لقرض عقاري؟”
+- “ما الفرق بين التمويل الشخصي والتمويل العقاري؟”
+- “أي حاسبة في Nesab تناسب حالتي؟”
+- “اشرح لي نتيجة الحاسبة التي ظهرت لي.”
+
+## What data does Nesab Ai rely on?
+
+- Uploaded Nesab HTML calculator pages
+- Internal rule summaries aligned with SAMA-style logic
+- Company and founder profile information
+- Any additional financial knowledge files provided by Nesab
+
+## In which languages can Nesab Ai respond?
+
+- Arabic (primary for Saudi users)
+- English (when the question is in English)
+
+The assistant mirrors the user’s language when possible.
+
+## How should users treat the answers?
+
+Users should treat responses as:
+- Educational
+- Explanatory
+- Helpful for planning and understanding
+
+Not as:
+- Legal advice
+- Final credit approval
+- Binding financial commitment

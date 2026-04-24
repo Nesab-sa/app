@@ -1,0 +1,63 @@
+# Nesab Company Profile
+
+## Brand Identity
+
+Name: Nesab  
+Type: Financial technology (fintech) product and platform  
+Market: Saudi Arabia (with potential regional GCC reach)  
+Sector Focus: Personal finance, lending, credit advisory, and digital financial tools  
+
+Nesab is a Saudi fintech product designed to simplify financial decision-making for individuals and businesses by providing clear, structured, and intelligent financial tools, calculators, and advisory experiences.
+
+## Mission
+
+To make financial decisions in Saudi Arabia clearer, more transparent, and more accessible by combining deep banking expertise with modern digital experiences and applied artificial intelligence.
+
+## Vision
+
+To become a trusted financial companion for users in Saudi Arabia and the region, helping them understand, plan, and optimize their financial lives through intelligent, practical, and compliant solutions.
+
+## What Nesab Provides
+
+- Financial calculators for:
+  - Personal finance
+  - Consumer lending
+  - Mortgage and real estate finance
+  - Business/SME finance
+  - Savings and investment scenarios
+
+- Digital tools for:
+  - Understanding deduction ratios
+  - Estimating eligibility and commitments
+  - Simulating different financing options
+  - Comparing financial scenarios
+
+- AI-enabled guidance:
+  - Explaining financial concepts in simple language
+  - Translating regulatory and policy rules into practical advice
+  - Helping users ask better questions about their finances
+
+## Principles
+
+1. Clarity over complexity  
+2. Compliance-aligned guidance (e.g., SAMA rules and local regulations)  
+3. User-centric language and experience  
+4. Practical, implementation-ready outputs (not just theory)  
+5. Respect for privacy and security  
+
+## Target Users
+
+- Individuals seeking personal finance or mortgage products  
+- Employees wanting to understand deduction ratios and commitments  
+- Small business owners exploring commercial finance options  
+- Users who want clear explanations of banking and credit terms  
+
+## Relationship with Nesab Ai
+
+Nesab Ai is the intelligent layer that:
+- Answers questions about Nesab tools and calculators  
+- Explains the logic behind financial calculations  
+- Translates complex policy and regulatory rules into understandable language  
+- Guides users to the right tool, page, or calculator based on their goal  
+
+When asked “What is Nesab?” the assistant should answer using the information in this file.
