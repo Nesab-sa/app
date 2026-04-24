@@ -901,6 +901,17 @@
       input, select, textarea { font-size: 16px !important; }
     }
 
+    /* === fee tabs — minimal addition === */
+    .fee-note { font-size: 0.72rem; color: var(--muted); background: rgba(0,0,0,0.2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; line-height: 1.7; }
+    .fee-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+    .fee-tab { padding: 7px 13px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-family: "Cairo", sans-serif; font-size: 0.74rem; font-weight: 600; cursor: pointer; transition: border-color 0.2s, color 0.2s, background 0.2s; }
+    .fee-tab.active { border-color: var(--neon2); color: var(--neon2); background: rgba(93,95,239,0.1); }
+    .fee-panel { display: none; }
+    .fee-panel.active { display: block; }
+    .acc-hdr { width: 100%; text-align: right; background: rgba(0,0,0,0.2); border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--neon2); font-family: "Cairo", sans-serif; font-size: 0.78rem; font-weight: 700; cursor: pointer; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+    .acc-body { display: none; margin-bottom: 10px; }
+    .acc-body.open { display: block; }
+
     </style>
     <script src="https://unpkg.com/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
   </head>
@@ -917,65 +928,250 @@
     </div>
       </div>
     <div class="main">
-      <div class="card">
-        <div class="sec-t">
-          &#x1F4B3; مقارنة الرسوم البنكية السابقة والمحدثة
-        </div>
-        <table class="tbl">
-          <thead>
-            <tr>
-              <th>البند</th>
-              <th>السابقة</th>
-              <th>المحدثة</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>رسوم إدارية (تمويل شخصي)</td>
-              <td class="old">1% بحد 5,000</td>
-              <td class="new">0.5% بحد 2,500 + ضريبة 15%</td>
-            </tr>
-            <tr>
-              <td>رسوم إدارية (تأجيري)</td>
-              <td class="old">حسب البنك</td>
-              <td class="new">ثابتة حسب العقد</td>
-            </tr>
-            <tr>
-              <td>رسوم إدارية (عقاري)</td>
-              <td class="old">1% بحد 5,000</td>
-              <td class="new">5,750 ريال شامل التقييم</td>
-            </tr>
-            <tr>
-              <td>رسوم السداد المبكر</td>
-              <td class="old">3 أشهر أرباح</td>
-              <td class="new">شهر واحد أرباح أو 10,000 أيهما أقل</td>
-            </tr>
-            <tr>
-              <td>نسبة استقطاع شخصي</td>
-              <td class="old">33.33%</td>
-              <td class="new">33.33% (بدون تغيير)</td>
-            </tr>
-            <tr>
-              <td>نسبة استقطاع تأجيري</td>
-              <td class="old">45%</td>
-              <td class="new">45% (بدون تغيير)</td>
-            </tr>
-            <tr>
-              <td>نسبة استقطاع عقاري &lt;15K</td>
-              <td class="old">55%</td>
-              <td class="new">55% (بدون تغيير)</td>
-            </tr>
-            <tr>
-              <td>نسبة استقطاع عقاري &gt;15K</td>
-              <td class="old">65%</td>
-              <td class="new">65% (بدون تغيير)</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="dec-badge ok" style="margin-top: 14px">
-          &#x2705; محدّث حسب تعليمات ساما 2025
+
+      <div class="fee-note">
+        ⚠️ الأسعار الأساسية غير شاملة ضريبة القيمة المضافة، وتم عرض الإجمالي شامل 15% حيث ينطبق. المرجع التنظيمي: دليل تعرفة خدمات المؤسسات المالية الصادر من البنك المركزي السعودي، شمل تخفيضات على رسوم بطاقات مدى والتحويلات وبعض منتجات التمويل، وبدأ تطبيقه بعد فترة سماح 60 يوماً.
+      </div>
+
+      <div class="fee-tabs">
+        <button class="fee-tab active" onclick="showFeeTab(this,'tab-compare')">&#x1F4CA; مقارنة الرسوم</button>
+        <button class="fee-tab" onclick="showFeeTab(this,'tab-products')">&#x1F4B3; رسوم المنتجات</button>
+        <button class="fee-tab" onclick="showFeeTab(this,'tab-transfers')">&#x1F4B8; الحوالات والتحويلات</button>
+        <button class="fee-tab" onclick="showFeeTab(this,'tab-finance')">&#x1F3E6; رسوم التمويل</button>
+        <button class="fee-tab" onclick="showFeeTab(this,'tab-docs')">&#x1F4C4; الوثائق وكشوف الحساب</button>
+        <button class="fee-tab" onclick="showFeeTab(this,'tab-other')">&#x2699; رسوم أخرى</button>
+      </div>
+
+      <!-- ===== TAB 1: مقارنة الرسوم ===== -->
+      <div id="tab-compare" class="fee-panel active">
+        <div class="card">
+          <div class="sec-t">
+            &#x1F4B3; مقارنة الرسوم البنكية السابقة والمحدثة
+          </div>
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>البند</th>
+                <th>السابقة</th>
+                <th>المحدثة</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>رسوم إدارية (تمويل شخصي)</td>
+                <td class="old">1% بحد 5,000</td>
+                <td class="new">0.5% بحد 2,500 + ضريبة 15%</td>
+              </tr>
+              <tr>
+                <td>رسوم إدارية (تأجيري)</td>
+                <td class="old">حسب البنك</td>
+                <td class="new">ثابتة حسب العقد</td>
+              </tr>
+              <tr>
+                <td>رسوم إدارية (عقاري)</td>
+                <td class="old">1% بحد 5,000</td>
+                <td class="new">5,750 ريال شامل التقييم</td>
+              </tr>
+              <tr>
+                <td>رسوم السداد المبكر</td>
+                <td class="old">3 أشهر أرباح</td>
+                <td class="new">شهر واحد أرباح أو 10,000 أيهما أقل</td>
+              </tr>
+              <tr>
+                <td>نسبة استقطاع شخصي</td>
+                <td class="old">33.33%</td>
+                <td class="new">33.33% (بدون تغيير)</td>
+              </tr>
+              <tr>
+                <td>نسبة استقطاع تأجيري</td>
+                <td class="old">45%</td>
+                <td class="new">45% (بدون تغيير)</td>
+              </tr>
+              <tr>
+                <td>نسبة استقطاع عقاري &lt;15K</td>
+                <td class="old">55%</td>
+                <td class="new">55% (بدون تغيير)</td>
+              </tr>
+              <tr>
+                <td>نسبة استقطاع عقاري &gt;15K</td>
+                <td class="old">65%</td>
+                <td class="new">65% (بدون تغيير)</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="dec-badge ok" style="margin-top: 14px">
+            &#x2705; محدّث حسب تعليمات ساما 2025
+          </div>
         </div>
       </div>
+
+      <!-- ===== TAB 2: رسوم المنتجات ===== -->
+      <div id="tab-products" class="fee-panel">
+        <div class="card">
+          <div class="sec-t">&#x1F4B3; رسوم المنتجات</div>
+
+          <button class="acc-hdr" onclick="toggleAcc(this)">بطاقة مدى <span class="acc-arr">▾</span></button>
+          <div class="acc-body open">
+            <table class="tbl">
+              <thead><tr><th>البند</th><th>الرسم الأساسي</th><th>شامل الضريبة 15%</th></tr></thead>
+              <tbody>
+                <tr><td>فتح حساب / إصدار بطاقة مدى / تجديدها</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+                <tr><td>إعادة إصدار بطاقة سُحبت من الصراف</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+                <tr><td>إصدار بطاقة مدى إضافية</td><td>10 ريال</td><td class="new">11.50 ريال</td></tr>
+                <tr><td>إعادة إصدار بطاقة (مفقودة / تالفة / خطأ رقم سري)</td><td>10 ريال</td><td class="new">11.50 ريال</td></tr>
+                <tr><td>استخدام محلياً (POS / إنترنت)</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+                <tr><td>استخدام عبر الشبكة الخليجية (POS)</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+                <tr><td>سحب نقدي عبر الشبكة الخليجية</td><td>10 ريال</td><td class="new">11.50 ريال</td></tr>
+                <tr><td>سحب نقدي دولياً (خارج الخليج)</td><td>3% بحد أقصى 25 ريال</td><td class="new">3% بحد أقصى 28.75 ريال</td></tr>
+                <tr><td>عمليات شراء دولية</td><td>2% من قيمة العملية</td><td class="new">2.3% من قيمة العملية</td></tr>
+                <tr><td>استعلام رصيد عبر الصراف الخليجي</td><td>3 ريال</td><td class="new">3.45 ريال</td></tr>
+                <tr><td>اعتراض خاطئ على عملية أو كشف حساب</td><td>3 ريال</td><td class="new">3.45 ريال</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <button class="acc-hdr" onclick="toggleAcc(this)">الصراف الآلي <span class="acc-arr">▾</span></button>
+          <div class="acc-body">
+            <table class="tbl">
+              <thead><tr><th>البند</th><th>الرسم الأساسي</th><th>شامل الضريبة 15%</th></tr></thead>
+              <tbody>
+                <tr><td>سحب من صراف نفس البنك</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+                <tr><td>سحب من صراف بنك آخر (محلي)</td><td>2 ريال</td><td class="new">2.30 ريال</td></tr>
+                <tr><td>استعلام رصيد من صراف بنك آخر</td><td>1 ريال</td><td class="new">1.15 ريال</td></tr>
+                <tr><td>سحب من شبكة خليجية</td><td>10 ريال</td><td class="new">11.50 ريال</td></tr>
+                <tr><td>سحب دولياً</td><td>3% بحد أقصى 25 ريال</td><td class="new">3% بحد أقصى 28.75 ريال</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <button class="acc-hdr" onclick="toggleAcc(this)">الشيكات <span class="acc-arr">▾</span></button>
+          <div class="acc-body">
+            <table class="tbl">
+              <thead><tr><th>البند</th><th>الرسم الأساسي</th><th>شامل الضريبة 15%</th></tr></thead>
+              <tbody>
+                <tr><td>إيداع شيك</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+                <tr><td>إصدار دفتر شيكات / دفتر إضافي</td><td>5 ريال</td><td class="new">5.75 ريال</td></tr>
+                <tr><td>إصدار شيك مصرفي</td><td>5 ريال</td><td class="new">5.75 ريال</td></tr>
+                <tr><td>إلغاء شيك مصرفي</td><td>5 ريال</td><td class="new">5.75 ريال</td></tr>
+                <tr><td>طلب نسخة شيك أقل من سنة</td><td>5 ريال</td><td class="new">5.75 ريال</td></tr>
+                <tr><td>طلب نسخة شيك أكثر من سنة</td><td>10 ريال</td><td class="new">11.50 ريال</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TAB 3: الحوالات والتحويلات ===== -->
+      <div id="tab-transfers" class="fee-panel">
+        <div class="card">
+          <div class="sec-t">&#x1F4B8; الحوالات والتحويلات</div>
+          <table class="tbl">
+            <thead><tr><th>البند</th><th>الرسم الأساسي</th><th>شامل الضريبة 15%</th></tr></thead>
+            <tbody>
+              <tr><td>تعريف مستفيد</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+              <tr><td>تحويل داخل نفس البنك</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+              <tr><td>إلغاء أمر دفع مستديم</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+              <tr><td>تأسيس أمر دفع مستديم من الفرع</td><td>5 ريال</td><td class="new">5.75 ريال</td></tr>
+              <tr><td>تحويل محلي ≤ 2,500 ريال — إلكتروني</td><td>0.50 ريال</td><td class="new">0.575 ريال</td></tr>
+              <tr><td>تحويل محلي 2,500 – 20,000 ريال — إلكتروني</td><td>1 ريال</td><td class="new">1.15 ريال</td></tr>
+              <tr><td>تحويل محلي &gt; 20,000 ريال — نفس اليوم من الفرع</td><td>25 ريال</td><td class="new">28.75 ريال</td></tr>
+              <tr><td>تحويل محلي &gt; 20,000 ريال — نفس اليوم إلكتروني</td><td>7 ريال</td><td class="new">8.05 ريال</td></tr>
+              <tr><td>تحويل محلي &gt; 20,000 ريال — اليوم التالي من الفرع</td><td>15 ريال</td><td class="new">17.25 ريال</td></tr>
+              <tr><td>تحويل محلي &gt; 20,000 ريال — اليوم التالي إلكتروني</td><td>5 ريال</td><td class="new">5.75 ريال</td></tr>
+              <tr><td>تحويل خارج المملكة من الفرع</td><td>75 ريال</td><td class="new">86.25 ريال</td></tr>
+              <tr><td>تحويل خارج المملكة إلكتروني</td><td>50 ريال</td><td class="new">57.50 ريال</td></tr>
+              <tr><td>تعديل / إلغاء حوالة خارجية من الفرع</td><td>25 ريال</td><td class="new">28.75 ريال</td></tr>
+              <tr><td>تعديل / إلغاء حوالة خارجية إلكتروني</td><td>15 ريال</td><td class="new">17.25 ريال</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== TAB 4: رسوم التمويل ===== -->
+      <div id="tab-finance" class="fee-panel">
+        <div class="card">
+          <div class="sec-t">&#x1F3E6; رسوم التمويل</div>
+
+          <button class="acc-hdr" onclick="toggleAcc(this)">تمويل شخصي / استهلاكي / مركبات <span class="acc-arr">▾</span></button>
+          <div class="acc-body open">
+            <table class="tbl">
+              <thead><tr><th>البند</th><th>الرسم الأساسي</th><th>شامل الضريبة 15%</th></tr></thead>
+              <tbody>
+                <tr><td>الرسوم الإدارية</td><td>0.5% من مبلغ التمويل — بحد أقصى 2,500 ريال</td><td class="new">0.575% — بحد أقصى 2,875 ريال</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <button class="acc-hdr" onclick="toggleAcc(this)">تمويل تجاري <span class="acc-arr">▾</span></button>
+          <div class="acc-body">
+            <table class="tbl">
+              <thead><tr><th>البند</th><th>الرسم الأساسي</th><th>شامل الضريبة 15%</th></tr></thead>
+              <tbody>
+                <tr><td>الرسوم الإدارية</td><td>0.5% من مبلغ التمويل — بحد أقصى 2,500 ريال</td><td class="new">0.575% — بحد أقصى 2,875 ريال</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <button class="acc-hdr" onclick="toggleAcc(this)">تمويل عقاري <span class="acc-arr">▾</span></button>
+          <div class="acc-body">
+            <table class="tbl">
+              <thead><tr><th>البند</th><th>الرسم الأساسي</th><th>شامل الضريبة 15%</th></tr></thead>
+              <tbody>
+                <tr><td>الرسوم الإدارية</td><td>5,000 ريال</td><td class="new">5,750 ريال</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <button class="acc-hdr" onclick="toggleAcc(this)">رسوم السداد المبكر <span class="acc-arr">▾</span></button>
+          <div class="acc-body">
+            <table class="tbl">
+              <thead><tr><th>البند</th><th colspan="2">التفاصيل</th></tr></thead>
+              <tbody>
+                <tr><td>السداد المبكر</td><td colspan="2">شهر واحد أرباح أو 10,000 ريال أيهما أقل</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TAB 5: الوثائق وكشوف الحساب ===== -->
+      <div id="tab-docs" class="fee-panel">
+        <div class="card">
+          <div class="sec-t">&#x1F4C4; الوثائق وكشوف الحساب</div>
+          <table class="tbl">
+            <thead><tr><th>البند</th><th>الرسم الأساسي</th><th>شامل الضريبة 15%</th></tr></thead>
+            <tbody>
+              <tr><td>شهادة تعريفية</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+              <tr><td>كشف حساب دوري أقل من سنة</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+              <tr><td>كشف حساب إلكتروني أكثر من سنة</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+              <tr><td>وثيقة إثبات مديونية</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+              <tr><td>مخالصة / إخلاء طرف</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+              <tr><td>كشف حساب من الفرع</td><td>15 ريال</td><td class="new">17.25 ريال</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== TAB 6: رسوم أخرى ===== -->
+      <div id="tab-other" class="fee-panel">
+        <div class="card">
+          <div class="sec-t">&#x2699;&#xFE0F; رسوم أخرى</div>
+          <table class="tbl">
+            <thead><tr><th>البند</th><th>الرسم الأساسي</th><th>شامل الضريبة 15%</th></tr></thead>
+            <tbody>
+              <tr><td>فتح حساب جاري / توفير</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+              <tr><td>إغلاق الحساب</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+              <tr><td>إضافة مفوض على الحساب</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+              <tr><td>تفعيل الخدمات الإلكترونية</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+              <tr><td>رسائل SMS للمعاملات</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+              <tr><td>إيداع نقدي في حساب شخص آخر</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+              <tr><td>استفسار عبر مركز الاتصال</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+              <tr><td>خدمة سداد</td><td class="new">مجاني</td><td class="new">مجاني</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <div class="export-btns">
         <button class="btn-export btn-pdf" onclick="exportPDF()">
           <svg
@@ -1005,6 +1201,20 @@
         </button>
       </div>
     </div>
+    <script>
+      function showFeeTab(btn, id) {
+        document.querySelectorAll('.fee-tab').forEach(function(b){ b.classList.remove('active'); });
+        document.querySelectorAll('.fee-panel').forEach(function(p){ p.classList.remove('active'); });
+        btn.classList.add('active');
+        document.getElementById(id).classList.add('active');
+      }
+      function toggleAcc(btn) {
+        var body = btn.nextElementSibling;
+        body.classList.toggle('open');
+        var arr = btn.querySelector('.acc-arr');
+        if (arr) arr.textContent = body.classList.contains('open') ? '▴' : '▾';
+      }
+    </script>
     <div class="footer">
      <div class="ftr-r">
         <h3>By Abdullah Almalki <h3>
@@ -1228,7 +1438,7 @@
       <a class="pm-url" href="https://www.nesab.sa" target="_blank" rel="noopener noreferrer">www.nesab.sa</a>
     </div>
     <div class="pm-row2">
-      <span class="pm-update">آخر تحديث: مارس 2026</span>
+      <span class="pm-update">آخر تحديث: أبريل 2026</span>
       <div class="pm-icons">
         <a href="https://t.me/Nesab.sa" target="_blank" class="tg"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
         <a href="https://twitter.com/Banker_Vp" target="_blank" class="tw"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
